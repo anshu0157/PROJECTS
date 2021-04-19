@@ -1,0 +1,201 @@
+{% extends 'basic.html' %}
+<!-- Title Part -->
+{% block title %}iCArt{% endblock %}
+<!-- CSS Part -->
+{% block css %}
+<style>
+  
+
+    /* mSlide{
+        background-color:#659DBD;
+    } */
+
+    .my-container {
+        /* background-color:#659DBD; */
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .my_card {
+        background-color: #8D8741;
+        max-width: 230px;
+        height: 260px;
+        box-sizing: content-box;
+    }
+
+    .img {
+        width: 130px;
+        height: 90px;
+        align-content: center;
+
+    }
+
+    .my-indicators {
+        color: rgb(5, 5, 5);
+        border-color: saddlebrown;
+    }
+
+    .my-row {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .cart_ {
+        width: 90px;
+        height: 30px;
+        font-size: x-small;
+        /* transform: translate(57px,23px); */
+    }
+
+    .card-title {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: small;
+        font-weight: 10%;
+    }
+
+    .card-text {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: smaller;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 5%;
+    }
+
+    /* .cb {
+        box-sizing: revert;
+    } */
+
+    *:before,
+    *:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+</style>
+{% endblock %}
+
+<!-- Body Part -->
+{% block body %}
+{% load static %}
+
+
+<!-- <div class="container my-container"></div> -->
+<div class="container my-container text-white">
+    {% for product,range,nslides in allprods %}
+
+    <h3 class=" p-2 ">{{product.0.category}}</h3>
+
+    <div id="demo{{forloop.counter}}" class="carousel slide bg-success rounded-3 mSlide" data-bs-ride="carousel">
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators my-indicators ">
+
+            <button type="button" data-bs-target="#demo{{forloop.counter}}" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1">
+            </button>
+
+            {% for i in range %}
+            <button type="button" data-bs-target="#demo{{forloop.parentloop.counter}}" data-bs-slide-to="{{i}}"
+                aria-label="slide {{i}}"></button>
+            {% endfor %}
+
+        </div>
+
+        <!-- Carousel Slide-show -->
+
+        <div class="carousel-inner p-3">
+            <!-- 1st Slide-Show -->
+            <div class="carousel-item active">
+                <div class="row my-row">
+                    <!-- <div class="my-col col-md-3 col-sm-3 rounded-3">
+                        <div class="card  fst-italic rounded-3 px-5 my_card no-margin">
+                            <img src='/media/{{product.0.image}}' class="card-img-top img rounded-3" alt="...">
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title">{{product.0.product_name}}</h6>
+                                <p class="card-text"><b>₹ {{product.0.price}}</b></p>
+                                <-- Add to cart button --
+                                <button id="pr{{product.0.id}}" class="btn btn-dark rounded-pill  cart_">Add To
+                                    Cart</button>
+                                <button id="pr{{product.0.id}}" class="btn btn-dark rounded-pill  cart_">Quick View</button>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    {% for i in product%}
+                    <div class="my-col col-md-3 col-sm-3 rounded-3 ">
+                        <div class="card  fst-italic rounded-3 px-5 my_card no-margin">
+                            <img src='/media/{{i.image}}' class="card-img-top img rounded-3" alt="...">
+                            <div class="card-body d-block float-left flex-column cb0">
+                                <h6 class="card-title">{{i.product_name}}</h6>
+                                <p class="card-text"><b>₹ {{i.price}}</b></p>
+                                <!-- Add to cart button -->
+                                <div class="container cb">
+                                    <button id="pr{{i.id}}" class="btn btn-warning card-link mx-0 cart_">Add To
+                                        Cart</button>
+                                    <a href="prodview{{i.id}}"><button id="qv{{i.id}}"
+                                            class="btn  btn-success  card-link cart_">Quick View</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last %}
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row my-row">
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Left and Right -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#demo{{forloop.counter}}"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#demo{{forloop.counter}}"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+<!-- JS Part -->
+{% block js %}
+<script>
+    console.log("working fine");
+    if (localStorage.getItem("cart_") == null) {
+        var cart_ = {};
+    } else {
+        cart_ = JSON.parse(localStorage.getItem("cart_"));
+        document.getElementById('cart_').innerHTML = Object.keys(cart_).length;
+    }
+    //jQuery starts here//
+    $(".cart_").click(function () {
+        console.log("clicked");
+        var idst = this.id.toString();
+        console.log(idst);
+        if (cart_[idst] != undefined) {
+            cart_[idst] += 1;
+        } else {
+            cart_[idst] = 1;
+        }
+        console.log(cart_);
+        localStorage.setItem("cart_", JSON.stringify(cart_));
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'basic.html'%}
+{% block title%}ContactUs{% endblock %}
+{% block body %}
+<div class="container-fluid p-3">
+    <h2 class="mx-5">ContactUs</h2>
+
+    <div class="container">
+        <form action="/cart/contact/" method="POST">{% csrf_token %}
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Your Name">
+          </div>
+        <div class="mb-3">
+            <label for="mail" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com">
+          </div>
+        <div class="mb-3">
+            <label for="Phone" class="form-label">Contact No.</label>
+            <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="9867212908">
+          </div>
+          <div class="mb-3">
+            <label for="query" class="form-label">Write us</label>
+            <textarea class="form-control" id="query" name="query" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+</div>
+{%endblock%}
